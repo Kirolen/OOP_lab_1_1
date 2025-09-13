@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "gem")
 public class Gem {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

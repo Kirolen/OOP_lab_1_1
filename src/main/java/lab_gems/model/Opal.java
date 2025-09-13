@@ -7,7 +7,6 @@ import lab_gems.types.OpalType;
 @Entity
 @Table(name = "opal")
 public class Opal extends Gem {
-
     @Enumerated(EnumType.STRING)
     private OpalType opalType;
 

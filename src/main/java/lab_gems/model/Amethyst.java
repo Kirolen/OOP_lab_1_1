@@ -6,7 +6,6 @@ import lab_gems.types.GemType;
 @Entity
 @Table(name = "amethyst")
 public class Amethyst extends Gem {
-
     private Double clarity;
     private Double colorIntensity;
 

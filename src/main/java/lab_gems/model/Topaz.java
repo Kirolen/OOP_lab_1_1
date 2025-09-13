@@ -6,7 +6,6 @@ import lab_gems.types.GemType;
 @Entity
 @Table(name = "topaz")
 public class Topaz extends Gem {
-
     private Double hardness;
     private Double lightReflectivity;
 

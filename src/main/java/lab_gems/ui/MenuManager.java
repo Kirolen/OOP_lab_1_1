@@ -2,8 +2,9 @@ package lab_gems.ui;
 
 import java.util.Scanner;
 
-public class MenuManager {
+import lab_gems.ui.ui_options.GemOptions;
 
+public class MenuManager {
     private Scanner scanner = new Scanner(System.in);
 
     public void run() {
@@ -15,16 +16,36 @@ public class MenuManager {
             String choice = scanner.nextLine();
 
             switch (choice) {
-                case "1": gemCRUDMenu(); break;
-                case "2": necklaceCRUDMenu(); break;
-                case "3": System.out.println("Action executed: Sort gems by value"); break;
-                case "4": System.out.println("Action executed: Filter gems by transparency"); break;
-                case "5": System.out.println("Action executed: Show hierarchy Precious/SemiPrecious"); break;
-                case "6": System.out.println("Action executed: Select gems for necklace"); break;
-                case "7": System.out.println("Action executed: Calculate total weight of necklace"); break;
-                case "8": System.out.println("Action executed: Calculate total price of necklace"); break;
-                case "0": running = false; System.out.println("Exiting program..."); break;
-                default: System.out.println("Invalid choice, please try again.");
+                case "1":
+                    gemCRUDMenu();
+                    break;
+                case "2":
+                    necklaceCRUDMenu();
+                    break;
+                case "3":
+                    System.out.println("Action executed: Sort gems by value");
+                    break;
+                case "4":
+                    System.out.println("Action executed: Filter gems by transparency");
+                    break;
+                case "5":
+                    System.out.println("Action executed: Show hierarchy Precious/SemiPrecious");
+                    break;
+                case "6":
+                    System.out.println("Action executed: Select gems for necklace");
+                    break;
+                case "7":
+                    System.out.println("Action executed: Calculate total weight of necklace");
+                    break;
+                case "8":
+                    System.out.println("Action executed: Calculate total price of necklace");
+                    break;
+                case "0":
+                    running = false;
+                    System.out.println("Exiting program...");
+                    break;
+                default:
+                    System.out.println("Invalid choice, please try again.");
             }
         }
     }
@@ -55,12 +76,22 @@ public class MenuManager {
         String choice = scanner.nextLine();
 
         switch (choice) {
-            case "1": System.out.println("Action executed: View all gems"); break;
-            case "2": System.out.println("Action executed: Add gem"); break;
-            case "3": System.out.println("Action executed: Edit gem"); break;
-            case "4": System.out.println("Action executed: Delete gem"); break;
-            case "0": break;
-            default: System.out.println("Invalid choice!");
+            case "1":
+                GemOptions.getAllGems();
+                break;
+            case "2":
+                GemOptions.addGem();
+                break;
+            case "3":
+                GemOptions.updateGem();
+                break;
+            case "4":
+                GemOptions.deleteGem();
+                break;
+            case "0":
+                break;
+            default:
+                System.out.println("Invalid choice!");
         }
     }
 
@@ -76,12 +107,22 @@ public class MenuManager {
         String choice = scanner.nextLine();
 
         switch (choice) {
-            case "1": System.out.println("Action executed: View all necklaces"); break;
-            case "2": System.out.println("Action executed: Create necklace"); break;
-            case "3": System.out.println("Action executed: Add gem to necklace"); break;
-            case "4": System.out.println("Action executed: Remove gem from necklace"); break;
-            case "0": break;
-            default: System.out.println("Invalid choice!");
+            case "1":
+                System.out.println("Action executed: View all necklaces");
+                break;
+            case "2":
+                System.out.println("Action executed: Create necklace");
+                break;
+            case "3":
+                System.out.println("Action executed: Add gem to necklace");
+                break;
+            case "4":
+                System.out.println("Action executed: Remove gem from necklace");
+                break;
+            case "0":
+                break;
+            default:
+                System.out.println("Invalid choice!");
         }
     }
 }
