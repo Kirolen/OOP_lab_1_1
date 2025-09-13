@@ -1,1 +1,4 @@
 persistence.xml
+./target
+target/
+target
