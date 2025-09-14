@@ -3,6 +3,7 @@ package lab_gems.ui;
 import java.util.Scanner;
 
 import lab_gems.ui.ui_options.GemOptions;
+import lab_gems.ui.ui_options.NecklaceOptions;
 
 public class MenuManager {
     private Scanner scanner = new Scanner(System.in);
@@ -23,10 +24,10 @@ public class MenuManager {
                     necklaceCRUDMenu();
                     break;
                 case "3":
-                    System.out.println("Action executed: Sort gems by value");
+                    GemOptions.sortGems();
                     break;
                 case "4":
-                    System.out.println("Action executed: Filter gems by transparency");
+                    GemOptions.filterGemsByTransparency();
                     break;
                 case "5":
                     System.out.println("Action executed: Show hierarchy Precious/SemiPrecious");
@@ -100,24 +101,32 @@ public class MenuManager {
         System.out.println("\n=== Necklaces Menu (CRUD) ===");
         System.out.println("1. View all necklaces");
         System.out.println("2. Create necklace");
-        System.out.println("3. Add gem to necklace");
-        System.out.println("4. Remove gem from necklace");
+        System.out.println("3. Update necklace name");
+        System.out.println("4. Delete necklace");
+        System.out.println("5. Add gem to necklace");
+        System.out.println("6. Remove gem from necklace");
         System.out.println("0. Return to main menu");
         System.out.print("Select an option: ");
         String choice = scanner.nextLine();
 
         switch (choice) {
             case "1":
-                System.out.println("Action executed: View all necklaces");
+                NecklaceOptions.getAllNecklaces();
                 break;
             case "2":
-                System.out.println("Action executed: Create necklace");
+                NecklaceOptions.addNecklace();
                 break;
             case "3":
-                System.out.println("Action executed: Add gem to necklace");
+                NecklaceOptions.updateNecklace();
                 break;
             case "4":
-                System.out.println("Action executed: Remove gem from necklace");
+                NecklaceOptions.deleteNecklace();
+                break;
+            case "5":
+                NecklaceOptions.addGemToNecklace();
+                break;
+            case "6":
+                NecklaceOptions.removeGemFromNecklace();
                 break;
             case "0":
                 break;

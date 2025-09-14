@@ -6,6 +6,8 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -285,6 +287,59 @@ class GemTest {
             assertEquals(OpalType.Fire, opal.getOpalType());
             assertEquals(0.95, opal.getFireIntensity());
             assertEquals(140.0, opal.getTotalPrice());
+        }
+    }
+
+    @Nested
+    class FilterAndSortTest {
+        @Test
+        void testSortGemsByWeight() {
+            Gem gem1 = new Gem("Gem1", GemType.Precious, 1.0, 50.0, 0.5, "Red");
+            Gem gem2 = new Gem("Gem2", GemType.SemiPrecious, 2.0, 60.0, 0.7, "Blue");
+
+            when(inputReader.readInt("Select option:")).thenReturn(1);
+            when(gemService.sortGemsBy("weightCarat", false)).thenReturn(List.of(gem2, gem1));
+
+            GemOptions.sortGems();
+
+            verify(gemService).sortGemsBy("weightCarat", false);
+        }
+
+        @Test
+        void testSortGemsByPricePerCarat() {
+            Gem gem1 = new Gem("Gem1", GemType.Precious, 1.0, 50.0, 0.5, "Red");
+            Gem gem2 = new Gem("Gem2", GemType.SemiPrecious, 2.0, 60.0, 0.7, "Blue");
+
+            when(inputReader.readInt("Select option:")).thenReturn(2);
+            when(gemService.sortGemsBy("pricePerCarat", false)).thenReturn(List.of(gem2, gem1));
+
+            GemOptions.sortGems();
+
+            verify(gemService).sortGemsBy("pricePerCarat", false);
+        }
+
+        @Test
+        void testFilterGemsByTransparency() {
+            Gem gem1 = new Gem("Gem1", GemType.Precious, 1.0, 50.0, 0.4, "Red");
+
+            when(inputReader.readDouble("Enter minimum transparency (0.0 - 1.0):")).thenReturn(0.3);
+            when(inputReader.readDouble("Enter maximum transparency (0.0 - 1.0):")).thenReturn(0.5);
+            when(gemService.filterGemsByTransparency(0.3, 0.5)).thenReturn(List.of(gem1));
+
+            GemOptions.filterGemsByTransparency();
+
+            verify(gemService).filterGemsByTransparency(0.3, 0.5);
+        }
+
+        @Test
+        void testFilterGemsByTransparencyNoResults() {
+            when(inputReader.readDouble("Enter minimum transparency (0.0 - 1.0):")).thenReturn(0.9);
+            when(inputReader.readDouble("Enter maximum transparency (0.0 - 1.0):")).thenReturn(1.0);
+            when(gemService.filterGemsByTransparency(0.9, 1.0)).thenReturn(List.of());
+
+            GemOptions.filterGemsByTransparency();
+
+            verify(gemService).filterGemsByTransparency(0.9, 1.0);
         }
     }
 

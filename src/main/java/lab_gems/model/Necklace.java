@@ -14,7 +14,7 @@ public class Necklace {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "necklace", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "necklace", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<NecklaceGem> gems;
 
     public Necklace() {}

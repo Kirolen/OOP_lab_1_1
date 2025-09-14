@@ -74,6 +74,11 @@ public class GemService {
                 return;
             }
             tx.begin();
+
+            em.createQuery("DELETE FROM NecklaceGem ng WHERE ng.gem = :gem")
+                    .setParameter("gem", gem)
+                    .executeUpdate();
+
             em.remove(gem);
             tx.commit();
             System.out.println("Gem with ID " + id + " deleted successfully.");
@@ -81,6 +86,30 @@ public class GemService {
             if (tx.isActive())
                 tx.rollback();
             e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Gem> sortGemsBy(String field, boolean ascending) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            String queryStr = "SELECT g FROM Gem g ORDER BY g." + field + (ascending ? " ASC" : " DESC");
+            TypedQuery<Gem> query = em.createQuery(queryStr, Gem.class);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Gem> filterGemsByTransparency(double minTransparency, double maxTransparency) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<Gem> query = em.createQuery(
+                    "SELECT g FROM Gem g WHERE g.transparency BETWEEN :minTransp AND :maxTransp", Gem.class);
+            query.setParameter("minTransp", minTransparency);
+            query.setParameter("maxTransp", maxTransparency);
+            return query.getResultList();
         } finally {
             em.close();
         }

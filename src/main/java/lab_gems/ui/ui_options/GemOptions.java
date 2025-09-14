@@ -196,6 +196,62 @@ public class GemOptions {
         }
     }
 
+    public static void sortGems() {
+        System.out.println("Choose sorting parameter:");
+        System.out.println("1. Weight (carat)");
+        System.out.println("2. Price per carat");
+        System.out.println("3. Transparency");
+        int choice = inputReader.readInt("Select option:");
+
+        String field;
+        switch (choice) {
+            case 1:
+                field = "weightCarat";
+                break;
+            case 2:
+                field = "pricePerCarat";
+                break;
+            case 3:
+                field = "transparency";
+                break;
+            default:
+                System.out.println("Invalid option");
+                return;
+        }
+
+        List<Gem> sortedGems = gemService.sortGemsBy(field, false); // ASC
+        sortedGems.forEach(g -> printGem(g));
+    }
+
+    public static void filterGemsByTransparency() {
+        double min = -1.0;
+        double max = -1.0;
+
+        while (min < 0.0 || min > 1.0) {
+            min = inputReader.readDouble("Enter minimum transparency (0.0 - 1.0):");
+            if (min < 0.0 || min > 1.0) {
+                System.out.println("Invalid value! Must be between 0.0 and 1.0.");
+            }
+        }
+
+        while (max < 0.0 || max > 1.0 || max < min) {
+            max = inputReader.readDouble("Enter maximum transparency (0.0 - 1.0):");
+            if (max < 0.0 || max > 1.0) {
+                System.out.println("Invalid value! Must be between 0.0 and 1.0.");
+            } else if (max < min) {
+                System.out.println("Maximum cannot be less than minimum!");
+            }
+        }
+
+        List<Gem> filtered = gemService.filterGemsByTransparency(min, max);
+
+        if (filtered.isEmpty()) {
+            System.out.println("No gems found with transparency in range [" + min + ", " + max + "]");
+        } else {
+            filtered.forEach(GemOptions::printGem);
+        }
+    }
+
     private static Double readDoubleWithFallback(String prompt, Double currentValue) {
         String input = inputReader.readString(prompt + " (" + currentValue + "):");
         if (input.isBlank())
