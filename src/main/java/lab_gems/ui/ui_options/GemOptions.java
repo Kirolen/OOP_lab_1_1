@@ -27,34 +27,15 @@ public class GemOptions {
     public static void addGem() {
         String name = inputReader.readString("Enter gem name:");
 
-        int gemSpeciesChoice = -1;
-        while (gemSpeciesChoice < 0 || gemSpeciesChoice > 4) {
-            gemSpeciesChoice = inputReader.readInt(
-                    "Choose gem type (0 - Default, 1 - Opal, 2 - Amethyst, 3 - Topaz, 4 - Sapphire):");
-            if (gemSpeciesChoice < 0 || gemSpeciesChoice > 4) {
-                System.out.println("Incorrect type! Try again!");
-            }
-        }
+        int gemSpeciesChoice = inputReader.readIntBetweenXAndY("Choose gem type (0 - Default, 1 - Opal, 2 - Amethyst, 3 - Topaz, 4 - Sapphire):", 0, 4);
 
-        int preciousnessChoice = -1;
-        while (preciousnessChoice != 1 && preciousnessChoice != 2) {
-            preciousnessChoice = inputReader.readInt("Choose gem precious type (1 - Precious, 2 - SemiPrecious):");
-            if (preciousnessChoice != 1 && preciousnessChoice != 2) {
-                System.out.println("Incorrect type! Try again!");
-            }
-        }
+        int preciousnessChoice = inputReader.readIntBetweenXAndY("Choose gem precious type (1 - Precious, 2 - SemiPrecious):", 1, 2);
         GemType type = preciousnessChoice == 1 ? GemType.Precious : GemType.SemiPrecious;
 
-        double weightCarat = inputReader.readDouble("Enter gem weight (carats):");
-        double pricePerCarat = inputReader.readDouble("Enter price per carat:");
+        double weightCarat = inputReader.readNonNegativeDouble("Enter gem weight (carats):");
+        double pricePerCarat = inputReader.readNonNegativeDouble("Enter price per carat:");
 
-        double transparency = -1.0;
-        while (transparency < 0.0 || transparency > 1.0) {
-            transparency = inputReader.readDouble("Enter transparency (0.0 - 1.0):");
-            if (transparency < 0.0 || transparency > 1.0) {
-                System.out.println("Transparency must be between 0.0 and 1.0!");
-            }
-        }
+        double transparency = inputReader.readDoubleBetweenXAndY("Enter transparency (0.0 - 1.0):", 0.0, 1.0);
 
         String color = inputReader.readString("Enter gem color:");
 
@@ -66,7 +47,7 @@ public class GemOptions {
                 int opalTypeChoice = -1;
                 while (opalTypeChoice < 1 || opalTypeChoice > 5) {
                     opalTypeChoice = inputReader
-                            .readInt("Choose Opal type (1 - White, 2 - Black, 3 - Fire, 4 - Boulder, 5 - Crystal):");
+                            .readNonNegativeInt("Choose Opal type (1 - White, 2 - Black, 3 - Fire, 4 - Boulder, 5 - Crystal):");
                     if (opalTypeChoice < 1 || opalTypeChoice > 5) {
                         System.out.println("Incorrect Opal type! Try again!");
                     }
@@ -77,27 +58,27 @@ public class GemOptions {
                                         : (opalTypeChoice == 4) ? OpalType.Boulder
                                                 : OpalType.Crystal;
 
-                double fireIntensity = inputReader.readDouble("Enter fire intensity:");
+                double fireIntensity = inputReader.readDoubleBetweenXAndY("Enter fire intensity (0.0 - 1.0):", 0.0, 1.0);
                 gem = new Opal(name, type, weightCarat, pricePerCarat, transparency, color, opalType, fireIntensity);
                 break;
             case 2:
                 System.out.println("=== Additional fields for Amethyst ===");
-                double clarity = inputReader.readDouble("Enter clarity (0.0 - 1.0):");
-                double colorIntensity = inputReader.readDouble("Enter color intensity (0.0 - 1.0):");
+                double clarity = inputReader.readDoubleBetweenXAndY("Enter clarity (0.0 - 1.0):", 0.0, 1.0);
+                double colorIntensity = inputReader.readDoubleBetweenXAndY("Enter color intensity (0.0 - 1.0):", 0.0, 1.0);
                 gem = new Amethyst(
                         name, type, weightCarat, pricePerCarat, transparency, color, clarity, colorIntensity);
                 break;
             case 3:
                 System.out.println("=== Additional fields for Topaz ===");
-                double topazHardness = inputReader.readDouble("Enter hardness:");
-                double lightReflectivity = inputReader.readDouble("Enter light reflectivity:");
+                int topazHardness = inputReader.readIntBetweenXAndY("Enter hardness (1 - 10):", 1, 10);
+                double lightReflectivity = inputReader.readDoubleBetweenXAndY("Enter light reflectivity (0.0 - 1.0):", 0.0, 1.0);
                 gem = new Topaz(name, type, weightCarat, pricePerCarat, transparency, color,
                         topazHardness, lightReflectivity);
                 break;
             case 4:
                 System.out.println("=== Additional fields for Sapphire ===");
-                double sapphireHardness = inputReader.readDouble("Enter hardness:");
-                double brilliance = inputReader.readDouble("Enter brilliance:");
+                int sapphireHardness = inputReader.readIntBetweenXAndY("Enter hardness (1 - 10):", 1, 10);
+                double brilliance = inputReader.readDoubleBetweenXAndY("Enter brilliance (0.0 - 1.0):", 0.0, 1.0);
                 gem = new Sapphire(name, type, weightCarat, pricePerCarat, transparency, color,
                         sapphireHardness, brilliance);
                 break;
@@ -119,7 +100,7 @@ public class GemOptions {
     }
 
     public static void updateGem() {
-        int id = inputReader.readInt("Enter ID of gem to update:");
+        int id = inputReader.readNonNegativeInt("Enter ID of gem to update:");
         Gem gem = gemService.getGemById(id);
 
         if (gem == null) {
@@ -133,19 +114,12 @@ public class GemOptions {
         if (!newName.isBlank())
             gem.setName(newName);
 
-        String typeChoice = inputReader
-                .readString("Choose gem precious type (1 - Precious, 2 - SemiPrecious) (" + gem.getType() + "):");
-        if (!typeChoice.isBlank()) {
-            int choice = Integer.parseInt(typeChoice);
-            if (choice == 1)
-                gem.setType(GemType.Precious);
-            else if (choice == 2)
-                gem.setType(GemType.SemiPrecious);
-        }
+        int preciousnessChoice = inputReader.readIntBetweenXAndY("Choose gem precious type (1 - Precious, 2 - SemiPrecious) (" + gem.getType() + "):", 1, 2);
+        gem.setType(preciousnessChoice == 1 ? GemType.Precious : GemType.SemiPrecious);
 
-        gem.setWeightCarat(readDoubleWithFallback("Enter new weight in carats", gem.getWeightCarat()));
-        gem.setPricePerCarat(readDoubleWithFallback("Enter new price per carat", gem.getPricePerCarat()));
-        gem.setTransparency(readDoubleWithFallback("Enter new transparency (0.0-1.0)", gem.getTransparency()));
+        gem.setWeightCarat(inputReader.readNonNegativeDouble("Enter new weight in carats (" + gem.getWeightCarat() + "):"));
+        gem.setPricePerCarat(inputReader.readNonNegativeDouble("Enter new price per carat (" + gem.getPricePerCarat() + "):"));
+        gem.setTransparency(inputReader.readDoubleBetweenXAndY("Enter new transparency (0.0 - 1.0) (" + gem.getTransparency() + "):", 0.0, 1.0));
 
         String colorInput = inputReader.readString("Enter new color (" + gem.getColor() + "):");
         if (!colorInput.isBlank())
@@ -157,19 +131,19 @@ public class GemOptions {
                     .readString("Enter Opal type (White, Black, Fire, Boulder, Crystal) (" + opal.getOpalType() + "):");
             if (!opalTypeInput.isBlank())
                 opal.setOpalType(OpalType.valueOf(opalTypeInput));
-            opal.setFireIntensity(readDoubleWithFallback("Enter fire intensity", opal.getFireIntensity()));
+            opal.setFireIntensity(inputReader.readDoubleBetweenXAndY("Enter fire intensity (0.0 - 1.0) (" + opal.getFireIntensity() + ")", 0.0, 1.0));
         } else if (gem instanceof Amethyst) {
             Amethyst am = (Amethyst) gem;
-            am.setClarity(readDoubleWithFallback("Enter clarity", am.getClarity()));
-            am.setColorIntensity(readDoubleWithFallback("Enter color intensity", am.getColorIntensity()));
+            am.setClarity(inputReader.readDoubleBetweenXAndY("Enter clarity (" + am.getClarity() + ")", 0.0, 1.0));
+            am.setColorIntensity(inputReader.readDoubleBetweenXAndY("Enter color intensity (0.0 - 1.0) (" + am.getColorIntensity() + ")", 0.0, 1.0));
         } else if (gem instanceof Topaz) {
             Topaz top = (Topaz) gem;
-            top.setHardness(readDoubleWithFallback("Enter hardness", top.getHardness()));
-            top.setLightReflectivity(readDoubleWithFallback("Enter light reflectivity", top.getLightReflectivity()));
+            top.setHardness(inputReader.readIntBetweenXAndY("Enter hardness (1 - 10) (" + top.getHardness() + ")", 1, 10));
+            top.setLightReflectivity(inputReader.readDoubleBetweenXAndY("Enter light reflectivity (0.0 - 1.0) (" + top.getLightReflectivity() + ")", 0.0, 1.0));
         } else if (gem instanceof Sapphire) {
             Sapphire sap = (Sapphire) gem;
-            sap.setHardness(readDoubleWithFallback("Enter hardness", sap.getHardness()));
-            sap.setBrilliance(readDoubleWithFallback("Enter brilliance", sap.getBrilliance()));
+            sap.setHardness(inputReader.readIntBetweenXAndY("Enter hardness (1 - 10) (" + sap.getHardness() + ")", 1, 10));
+            sap.setBrilliance(inputReader.readDoubleBetweenXAndY("Enter brilliance (0.0 - 1.0) (" + sap.getBrilliance() + ")", 0.0, 1.0));
         }
 
         gemService.updateGem(gem);
@@ -177,7 +151,7 @@ public class GemOptions {
     }
 
     public static void deleteGem() {
-        int id = inputReader.readInt("Enter ID of gem to delete:");
+        int id = inputReader.readNonNegativeInt("Enter ID of gem to delete:");
         Gem gem = gemService.getGemById(id);
 
         if (gem == null) {
@@ -201,7 +175,7 @@ public class GemOptions {
         System.out.println("1. Weight (carat)");
         System.out.println("2. Price per carat");
         System.out.println("3. Transparency");
-        int choice = inputReader.readInt("Select option:");
+        int choice = inputReader.readNonNegativeInt("Select option:");
 
         String field;
         switch (choice) {
@@ -224,24 +198,9 @@ public class GemOptions {
     }
 
     public static void filterGemsByTransparency() {
-        double min = -1.0;
-        double max = -1.0;
-
-        while (min < 0.0 || min > 1.0) {
-            min = inputReader.readDouble("Enter minimum transparency (0.0 - 1.0):");
-            if (min < 0.0 || min > 1.0) {
-                System.out.println("Invalid value! Must be between 0.0 and 1.0.");
-            }
-        }
-
-        while (max < 0.0 || max > 1.0 || max < min) {
-            max = inputReader.readDouble("Enter maximum transparency (0.0 - 1.0):");
-            if (max < 0.0 || max > 1.0) {
-                System.out.println("Invalid value! Must be between 0.0 and 1.0.");
-            } else if (max < min) {
-                System.out.println("Maximum cannot be less than minimum!");
-            }
-        }
+        double[] minMax = inputReader.readMinAndMaxTransparency();
+        double min = minMax[0];
+        double max = minMax[1];
 
         List<Gem> filtered = gemService.filterGemsByTransparency(min, max);
 
@@ -252,20 +211,24 @@ public class GemOptions {
         }
     }
 
-    private static Double readDoubleWithFallback(String prompt, Double currentValue) {
-        String input = inputReader.readString(prompt + " (" + currentValue + "):");
-        if (input.isBlank())
-            return currentValue;
-        input = input.replace(',', '.');
-        try {
-            return Double.parseDouble(input);
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid number, keeping previous value.");
-            return currentValue;
-        }
+    public static void showGemHierarchy() {
+        List<Gem> gems = gemService.getAllGems();
+        System.out.println("\n=== Gems by Hierarchy ===");
+
+        System.out.println("\nPrecious Gems:");
+        gems.stream()
+                .filter(g -> g.getType() == GemType.Precious)
+                .forEach(GemOptions::printGem);
+
+        System.out.println("\nSemi-Precious Gems:");
+        gems.stream()
+                .filter(g -> g.getType() == GemType.SemiPrecious)
+                .forEach(GemOptions::printGem);
     }
 
-    private static void printGem(Gem g) {
+
+
+    public static void printGem(Gem g) {
         System.out.println("-------- GEM --------");
         System.out.println("ID: " + g.getId());
         System.out.println("Name: " + g.getName());

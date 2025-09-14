@@ -87,7 +87,6 @@ public class NecklaceService {
             tx.begin();
             em.persist(ng);
             tx.commit();
-            System.out.println("Gem added to necklace successfully!");
         } catch (Exception e) {
             if (tx.isActive())
                 tx.rollback();

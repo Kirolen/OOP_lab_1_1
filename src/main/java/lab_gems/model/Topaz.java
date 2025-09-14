@@ -6,21 +6,21 @@ import lab_gems.types.GemType;
 @Entity
 @Table(name = "topaz")
 public class Topaz extends Gem {
-    private Double hardness;
+    private Integer hardness;
     private Double lightReflectivity;
 
     public Topaz() {}
 
     public Topaz(String name, GemType type, Double weightCarat, Double pricePerCarat,
-                 Double transparency, String color, Double hardness, Double lightReflectivity) {
+                 Double transparency, String color, Integer hardness, Double lightReflectivity) {
         super(name, type, weightCarat, pricePerCarat, transparency, color); // топаз напівдорогоцінний
         this.hardness = hardness;
         this.lightReflectivity = lightReflectivity;
     }
 
     // getters/setters
-    public Double getHardness() { return hardness; }
-    public void setHardness(Double hardness) { this.hardness = hardness; }
+    public Integer getHardness() { return hardness; }
+    public void setHardness(Integer hardness) { this.hardness = hardness; }
 
     public Double getLightReflectivity() { return lightReflectivity; }
     public void setLightReflectivity(Double lightReflectivity) { this.lightReflectivity = lightReflectivity; }

@@ -6,21 +6,21 @@ import lab_gems.types.GemType;
 @Entity
 @Table(name = "sapphire")
 public class Sapphire extends Gem {
-    private Double hardness;
+    private Integer hardness;
     private Double brilliance;
 
     public Sapphire() {}
 
     public Sapphire(String name, GemType type, Double weightCarat, Double pricePerCarat,
-                    Double transparency, String color, Double hardness, Double brilliance) {
+                    Double transparency, String color, Integer hardness, Double brilliance) {
         super(name, type, weightCarat, pricePerCarat, transparency, color); 
         this.hardness = hardness;
         this.brilliance = brilliance;
     }
 
     // getters/setters
-    public Double getHardness() { return hardness; }
-    public void setHardness(Double hardness) { this.hardness = hardness; }
+    public Integer getHardness() { return hardness; }
+    public void setHardness(Integer hardness) { this.hardness = hardness; }
 
     public Double getBrilliance() { return brilliance; }
     public void setBrilliance(Double brilliance) { this.brilliance = brilliance; }

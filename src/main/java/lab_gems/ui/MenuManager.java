@@ -30,16 +30,16 @@ public class MenuManager {
                     GemOptions.filterGemsByTransparency();
                     break;
                 case "5":
-                    System.out.println("Action executed: Show hierarchy Precious/SemiPrecious");
+                    GemOptions.showGemHierarchy();
                     break;
                 case "6":
-                    System.out.println("Action executed: Select gems for necklace");
+                    NecklaceOptions.selectGemsForNecklace();
                     break;
                 case "7":
-                    System.out.println("Action executed: Calculate total weight of necklace");
+                    NecklaceOptions.calculateAndShowTotals();
                     break;
                 case "8":
-                    System.out.println("Action executed: Calculate total price of necklace");
+                    NecklaceOptions.sortAndShowGemsByValue();
                     break;
                 case "0":
                     running = false;
@@ -60,8 +60,8 @@ public class MenuManager {
         System.out.println("4. Filter gems by transparency");
         System.out.println("5. Show hierarchy Precious/SemiPrecious");
         System.out.println("6. Select gems for necklace");
-        System.out.println("7. Calculate total weight of necklace");
-        System.out.println("8. Calculate total price of necklace");
+        System.out.println("7. Calculate total weight and price of necklace");
+        System.out.println("8. Sort gems by value of necklace");
         System.out.println("0. Exit");
     }
 

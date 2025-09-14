@@ -8,6 +8,7 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 import lab_gems.model.Gem;
+import lab_gems.types.GemType;
 
 public class GemService {
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("gemPU");
@@ -109,6 +110,36 @@ public class GemService {
                     "SELECT g FROM Gem g WHERE g.transparency BETWEEN :minTransp AND :maxTransp", Gem.class);
             query.setParameter("minTransp", minTransparency);
             query.setParameter("maxTransp", maxTransparency);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Gem> getGemsByCriteria(
+            GemType type,
+            double minWeight,
+            double maxWeight,
+            double minPrice,
+            double maxPrice,
+            double minTransparency,
+            double maxTransparency) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            String jpql = "SELECT g FROM Gem g WHERE g.type = :type " +
+                    "AND g.weightCarat BETWEEN :minWeight AND :maxWeight " +
+                    "AND g.pricePerCarat BETWEEN :minPrice AND :maxPrice " +
+                    "AND g.transparency BETWEEN :minTrans AND :maxTrans";
+
+            TypedQuery<Gem> query = em.createQuery(jpql, Gem.class);
+            query.setParameter("type", type);
+            query.setParameter("minWeight", minWeight);
+            query.setParameter("maxWeight", maxWeight);
+            query.setParameter("minPrice", minPrice);
+            query.setParameter("maxPrice", maxPrice);
+            query.setParameter("minTrans", minTransparency);
+            query.setParameter("maxTrans", maxTransparency);
+
             return query.getResultList();
         } finally {
             em.close();
